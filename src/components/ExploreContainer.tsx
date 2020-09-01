@@ -1,3 +1,10 @@
+import {
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+} from "@ionic/react";
 import { useLoading } from "@swyx/hooks";
 import React from "react";
 import "./ExploreContainer.css";
@@ -14,7 +21,7 @@ function LambdaDemo() {
   ) => {
     e.preventDefault();
     load(
-      fetch("/.netlify/lambda/" + api)
+      fetch("/.netlify/functions/" + api)
         .then((response) => response.json())
         .then((json) => setMsg(json.msg))
     );
@@ -22,12 +29,18 @@ function LambdaDemo() {
 
   return (
     <p>
-      <button onClick={handleClick("hello")}>
+      <IonButton
+        //@ts-ignore
+        onClick={handleClick("hello")}
+      >
         {isLoading ? "Loading..." : "Call Lambda"}
-      </button>
-      <button onClick={handleClick("async-chuck-norris")}>
+      </IonButton>
+      <IonButton
+        //@ts-ignore
+        onClick={handleClick("async-chuck-norris")}
+      >
         {isLoading ? "Loading..." : "Call Async Lambda"}
-      </button>
+      </IonButton>
       <br />
       <span>{msg}</span>
     </p>
@@ -37,8 +50,14 @@ function LambdaDemo() {
 const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
   return (
     <div className="container">
-      <strong>{name}</strong>
-      <LambdaDemo />
+      <IonCard>
+        <IonCardHeader>
+          <IonCardTitle>{name}</IonCardTitle>
+        </IonCardHeader>
+        <IonCardContent>
+          <LambdaDemo />
+        </IonCardContent>
+      </IonCard>
     </div>
   );
 };
