@@ -1,49 +1,44 @@
-import * as React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Menu from './components/Menu';
+import Page from './pages/Page';
+import React from 'react';
+import { IonApp, IonRouterOutlet, IonSplitPane } from '@ionic/react';
+import { IonReactRouter } from '@ionic/react-router';
+import { Redirect, Route } from 'react-router-dom';
 
-import { useLoading } from '@swyx/hooks';
+/* Core CSS required for Ionic components to work properly */
+import '@ionic/react/css/core.css';
 
-function LambdaDemo() {
-  const [isLoading, load] = useLoading();
-  const [msg, setMsg] = React.useState(null);
-  const handleClick = (api: string) => (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    e.preventDefault();
-    load(
-      fetch('/.netlify/functions/' + api)
-        .then(response => response.json())
-        .then(json => setMsg(json.msg))
-    );
-  };
+/* Basic CSS for apps built with Ionic */
+import '@ionic/react/css/normalize.css';
+import '@ionic/react/css/structure.css';
+import '@ionic/react/css/typography.css';
+
+/* Optional CSS utils that can be commented out */
+import '@ionic/react/css/padding.css';
+import '@ionic/react/css/float-elements.css';
+import '@ionic/react/css/text-alignment.css';
+import '@ionic/react/css/text-transformation.css';
+import '@ionic/react/css/flex-utils.css';
+import '@ionic/react/css/display.css';
+
+/* Theme variables */
+import './theme/variables.css';
+
+const App: React.FC = () => {
 
   return (
-    <p>
-      <button onClick={handleClick('hello')}>
-        {isLoading ? 'Loading...' : 'Call Lambda'}
-      </button>
-      <button onClick={handleClick('async-chuck-norris')}>
-        {isLoading ? 'Loading...' : 'Call Async Lambda'}
-      </button>
-      <br />
-      <span>{msg}</span>
-    </p>
+    <IonApp>
+      <IonReactRouter>
+        <IonSplitPane contentId="main">
+          <Menu />
+          <IonRouterOutlet id="main">
+            <Route path="/page/:name" component={Page} exact />
+            <Redirect from="/" to="/page/Inbox" exact />
+          </IonRouterOutlet>
+        </IonSplitPane>
+      </IonReactRouter>
+    </IonApp>
   );
-}
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <LambdaDemo />
-      </header>
-    </div>
-  );
-}
+};
 
 export default App;
