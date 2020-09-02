@@ -45,10 +45,13 @@ function LambdaDemo() {
       </IonButton>
       <IonLoading isOpen={isLoading} />
       <br />
-      {msg ? (
+      {isLoading ? (
+        <>
+          <IonSkeletonText animated style={{ width: "60%" }} />
+          <IonSkeletonText animated style={{ width: "40%" }} />
+        </>
+      ) : msg ? (
         <span>{msg}</span>
-      ) : isLoading ? (
-        <IonSkeletonText animated style={{ width: "60%" }} />
       ) : (
         <p />
       )}
