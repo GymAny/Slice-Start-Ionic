@@ -4,6 +4,8 @@ import {
   IonCardContent,
   IonCardHeader,
   IonCardTitle,
+  IonLoading,
+  IonSkeletonText,
 } from "@ionic/react";
 import { useLoading } from "@swyx/hooks";
 import React from "react";
@@ -33,32 +35,37 @@ function LambdaDemo() {
         //@ts-ignore
         onClick={handleClick("hello")}
       >
-        {isLoading ? "Loading..." : "Call Lambda"}
+        {"Call Lambda"}
       </IonButton>
       <IonButton
         //@ts-ignore
         onClick={handleClick("async-chuck-norris")}
       >
-        {isLoading ? "Loading..." : "Call Async Lambda"}
+        {"Call Async Lambda"}
       </IonButton>
+      <IonLoading isOpen={isLoading} />
       <br />
-      <span>{msg}</span>
+      {msg ? (
+        <span>{msg}</span>
+      ) : isLoading ? (
+        <IonSkeletonText animated style={{ width: "60%" }} />
+      ) : (
+        <p />
+      )}
     </p>
   );
 }
 
 const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
   return (
-    <div className="container">
-      <IonCard>
-        <IonCardHeader>
-          <IonCardTitle>{name}</IonCardTitle>
-        </IonCardHeader>
-        <IonCardContent>
-          <LambdaDemo />
-        </IonCardContent>
-      </IonCard>
-    </div>
+    <IonCard>
+      <IonCardHeader>
+        <IonCardTitle>{name}</IonCardTitle>
+      </IonCardHeader>
+      <IonCardContent>
+        <LambdaDemo />
+      </IonCardContent>
+    </IonCard>
   );
 };
 

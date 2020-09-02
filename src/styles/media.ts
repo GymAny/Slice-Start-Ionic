@@ -1,8 +1,9 @@
+/* es-lint-disable */
 import {
   css,
   CSSObject,
   FlattenSimpleInterpolation,
-  SimpleInterpolation,
+  SimpleInterpolation, //@ts-ignore
 } from "styled-components";
 
 type Breakpoints = {
