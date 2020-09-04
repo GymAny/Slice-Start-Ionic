@@ -1,4 +1,14 @@
-import { IonApp, IonRouterOutlet, IonSplitPane } from "@ionic/react";
+import {
+  IonApp,
+  IonIcon,
+  IonLabel,
+  IonPage,
+  IonRouterOutlet,
+  IonSplitPane,
+  IonTabBar,
+  IonTabButton,
+  IonTabs,
+} from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -15,7 +25,7 @@ import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
-import Menu from "./components/Menu";
+import Menu, { appPages } from "./components/Menu";
 import Page from "./pages/Page";
 /* Theme variables */
 import "./styles/theme.css";
@@ -26,10 +36,28 @@ const App: React.FC = () => {
       <IonReactRouter>
         <IonSplitPane contentId="main">
           <Menu />
-          <IonRouterOutlet id="main">
-            <Route path="/page/:name" component={Page} exact />
-            <Redirect from="/" to="/page/Inbox" exact />
-          </IonRouterOutlet>
+          <IonPage id="main">
+            <IonTabs>
+              <IonRouterOutlet id="main">
+                <Route path="/page/:name" component={Page} exact />
+                <Redirect from="/" to="/page/Inbox" exact />
+              </IonRouterOutlet>
+              <IonTabBar slot="bottom">
+                {appPages.map((appPage, index) => {
+                  return (
+                    <IonTabButton
+                      key={index}
+                      tab={appPage.url}
+                      href={appPage.url}
+                    >
+                      <IonIcon icon={appPage.iosIcon} />
+                      <IonLabel>{appPage.title}</IonLabel>
+                    </IonTabButton>
+                  );
+                })}
+              </IonTabBar>
+            </IonTabs>
+          </IonPage>
         </IonSplitPane>
       </IonReactRouter>
     </IonApp>
